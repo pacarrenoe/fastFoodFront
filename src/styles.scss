@@ -1,15 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
-* {
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
-  font-family: 'Montserrat', sans-serif;
-  background-color: #f6f6f6;
+html, body {
+  height: 100%;
+  font-family: "Roboto", sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  background-color: #f5f5f5;
   color: #333;
+}
+
+ul, ol {
+  list-style: none;
 }
 
 a {
@@ -17,35 +27,44 @@ a {
   color: inherit;
 }
 
-ul {
-  list-style: none;
-}
-
 button {
-  border: none;
-  background: none;
-  font: inherit;
   cursor: pointer;
 }
 
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+}
+
+/* ==== CUSTOM UTILS (opcional) ==== */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
 
 :root {
   //Backgrounds
   --background-primary: #121212;
-  --background-bl: #003861;
+  --background-bl: #06548e;
   --background-wh: #ffffff;
+  --background-bl-light: #007bff;
+  --background-green-light: #00b894 ;
 
 
   //Letras
   --letter-primary: #ffffff;
   --letter-secondary: #000000;
+  --letter-danger: #d63031;
 
   //Hover
-  --hover-bl: #003861;
+  --hover-bl: #06548e;
 
   //Placeholder
   --placeholder-background: linear-gradient(90deg, #cccccc 25%, #e0e0e0 50%, #cccccc 75%)
 }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

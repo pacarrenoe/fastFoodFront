@@ -1,22 +1,24 @@
-<div class="pedido-layout">
-  <!-- IZQUIERDA: CATEGORÍAS Y PRODUCTOS -->
-  <div class="producto-panel">
-    <div class="categorias">
-      <button
-        *ngFor="let cat of categorias"
-        [class.selected]="cat.nombre === categoriaSeleccionada.nombre"
-        (click)="seleccionarCategoria(cat)">
-        {{ cat.nombre }}
-      </button>
-    </div>
+<div class="productos-panel">
+  <!-- Categorías (fijas arriba) -->
+  <div class="categorias">
+    <button
+      *ngFor="let categoria of categorias"
+      [class.seleccionada]="categoriaSeleccionada?.id === categoria.id"
+      (click)="seleccionarCategoria(categoria)"
+    >
+      {{ categoria.nombre }}
+    </button>
+  </div>
 
-    <div class="productos-list">
-      <div *ngFor="let prod of productosFiltrados" class="producto-card" (click)="agregarProducto(prod)">
-        <div class="card-content">
-          <p>{{ prod.nombre }}</p>
-          <p>${{ prod.precio }}</p>
-        </div>
-      </div>
+  <!-- Productos con scroll -->
+  <div class="productos-scroll">
+    <div
+      *ngFor="let producto of productosFiltrados"
+      class="producto-card"
+      (click)="agregarProducto(producto)"
+    >
+      <h3>{{ producto.nombre }}</h3>
+      <p>${{ producto.precio }}</p>
     </div>
   </div>
 </div>

@@ -1,88 +1,70 @@
-.pedido-layout {
-  display: flex;
-  gap: 1rem;
-  padding: 1rem;
-}
-
-.producto-panel {
-  flex: 2;
-}
-
-.resumen-pedido {
-  flex: 1;
-  background: #f9f9f9;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
-  min-width: 300px;
-
-  .resumen-item {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-
-    button {
-      background: none;
-      border: none;
-      color: #dc3545;
-      cursor: pointer;
-    }
-  }
-
-  .total {
-    font-size: 1.2rem;
-    margin-top: 1rem;
-  }
-}
-
-.categorias {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-
-  button {
-    background-color: #eeeeee;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 20px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-
-    &.selected {
-      background-color: #007bff;
-      color: white;
-    }
-
-    &:hover {
-      background-color: #ddd;
-    }
-  }
-}
-
-.productos-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-}
-
-.producto-card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 1rem;
-  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+.productos-panel {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  text-align: center;
-  position: relative;
+  height: 100%; // asegura altura completa dentro del layout
+  overflow: hidden;
 
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    background-color: #0d4a7a;
-    color: white;
+  .categorias {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+    justify-content: center;
+    flex-shrink: 0;
+
+    button {
+      border: none;
+      background: #e4e4e4;;
+      padding: 10px 1.4rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.2s;
+
+      &.seleccionada {
+        background: var(--hover-bl);
+        color: white;
+      }
+    }
+  }
+
+  .productos-scroll {
+    flex: 1;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    justify-content: start;
+    align-content: start;
+    padding-right: 4px;
+  }
+
+  .producto-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    text-align: center;
     cursor: pointer;
+    transition: background 0.2s;
+    min-height: 80px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &:hover {
+      background: var(--hover-bl);
+      color: var(--letter-primary);
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    p {
+      font-weight: bold;
+    }
   }
 }

@@ -1,5 +1,6 @@
 <div class="pedido-layout">
   <app-productos-panel
+    class="productos-panel"
     [categorias]="categorias"
     [categoriaSeleccionada]="categoriaSeleccionada"
     [productosFiltrados]="productosFiltrados"
@@ -8,6 +9,7 @@
   </app-productos-panel>
 
   <app-resumen-pedido
+    class="resumen-pedido"
     [pedido]="pedido"
     [total]="total"
     [(cliente)]="nombreCliente"

@@ -1,6 +1,17 @@
-export const categorias = ['Papas fritas', 'Bebestibles', 'Vianesas', 'Ass', 'Churrascos', 'Megas'];
+import {Producto} from "../../app/model/producto.model";
+import {Categoria} from "../../app/model/categoria.model";
 
-export const productos = [
+
+export const categorias: Categoria[] = [
+  { id: '1', nombre: 'Papas fritas' },
+  { id: '2', nombre: 'Vianesas' },
+  { id: '3', nombre: 'Ass' },
+  { id: '4', nombre: 'Churrascos' },
+  { id: '5', nombre: 'Megas' },
+  { id: '6', nombre: 'Bebestibles' },
+];
+
+export const productos: Producto[] = [
   { id: 1, nombre: 'Papa frita chica', precio: 2000, categoria: 'Papas fritas' },
   { id: 2, nombre: 'Papa frita grande', precio: 3000, categoria: 'Papas fritas' },
   { id: 3, nombre: 'Salchipapa chica', precio: 3000, categoria: 'Papas fritas' },
@@ -52,32 +63,32 @@ export const productos = [
   { id: 42, nombre: 'Ass Italuco', precio: 5000, categoria: 'Ass' },
 
   // Churrasco
-  { id: 43, nombre: 'Churrasco Italiano', precio: 7700, categoria: 'Churrascos' },
-  { id: 44, nombre: 'Churrasco Especial mayo', precio: 5900, categoria: 'Churrascos' },
-  { id: 45, nombre: 'Churrasco Tomate mayo', precio: 7300, categoria: 'Churrascos' },
-  { id: 46, nombre: 'Churrasco Completo', precio: 7700, categoria: 'Churrascos' },
-  { id: 47, nombre: 'Churrasco Aleman', precio: 7600, categoria: 'Churrascos' },
-  { id: 48, nombre: 'Churrasco Barros Luco', precio: 7700, categoria: 'Churrascos' },
-  { id: 49, nombre: 'Churrasco Chacarero', precio: 7700, categoria: 'Churrascos' },
-  { id: 50, nombre: 'Churrasco Dinamico', precio: 8200, categoria: 'Churrascos' },
-  { id: 51, nombre: 'Churrasco Brasileno', precio: 8200, categoria: 'Churrascos' },
-  { id: 52, nombre: 'Churrasco Napolitano', precio: 8200, categoria: 'Churrascos' },
-  { id: 53, nombre: 'Churrasco Chacarero Palta', precio: 8200, categoria: 'Churrascos' },
-  { id: 54, nombre: 'Churrasco Italuco', precio: 8600, categoria: 'Churrascos' },
-  { id: 55, nombre: 'Churrasco Vegetariano', precio: 4900, categoria: 'Churrascos' },
+  { id: 43, nombre: 'Ch. Italiano', precio: 7700, categoria: 'Churrascos' },
+  { id: 44, nombre: 'Ch. Especial mayo', precio: 5900, categoria: 'Churrascos' },
+  { id: 45, nombre: 'Ch. Tomate mayo', precio: 7300, categoria: 'Churrascos' },
+  { id: 46, nombre: 'Ch. Completo', precio: 7700, categoria: 'Churrascos' },
+  { id: 47, nombre: 'Ch. Aleman', precio: 7600, categoria: 'Churrascos' },
+  { id: 48, nombre: 'Ch. Barros Luco', precio: 7700, categoria: 'Churrascos' },
+  { id: 49, nombre: 'Ch. Chacarero', precio: 7700, categoria: 'Churrascos' },
+  { id: 50, nombre: 'Ch. Dinamico', precio: 8200, categoria: 'Churrascos' },
+  { id: 51, nombre: 'Ch. Brasileno', precio: 8200, categoria: 'Churrascos' },
+  { id: 52, nombre: 'Ch. Napolitano', precio: 8200, categoria: 'Churrascos' },
+  { id: 53, nombre: 'Ch. Chacarero Palta', precio: 8200, categoria: 'Churrascos' },
+  { id: 54, nombre: 'Ch. Italuco', precio: 8600, categoria: 'Churrascos' },
+  { id: 55, nombre: 'Ch. Vegetariano', precio: 4900, categoria: 'Churrascos' },
 
   // Megas
-  { id: 56, nombre: 'Mega Italiano', precio: 16000, categoria: 'Megas' },
-  { id: 57, nombre: 'Mega Especial mayo', precio: 13500, categoria: 'Megas' },
-  { id: 58, nombre: 'Mega Tomate mayo', precio: 15000, categoria: 'Megas' },
-  { id: 59, nombre: 'Mega Completo', precio: 16000, categoria: 'Megas' },
-  { id: 60, nombre: 'Mega Aleman', precio: 16000, categoria: 'Megas' },
-  { id: 61, nombre: 'Mega Barros Luco', precio: 16000, categoria: 'Megas' },
-  { id: 62, nombre: 'Mega Chacarero', precio: 16000, categoria: 'Megas' },
-  { id: 63, nombre: 'Mega Dinamico', precio: 17000, categoria: 'Megas' },
-  { id: 64, nombre: 'Mega Brasileno', precio: 17000, categoria: 'Megas' },
-  { id: 65, nombre: 'Mega Napolitano', precio: 17000, categoria: 'Megas' },
-  { id: 66, nombre: 'Mega Chacarero Palta', precio: 17000, categoria: 'Megas' },
-  { id: 67, nombre: 'Mega Italuco', precio: 17000, categoria: 'Megas' },
-  { id: 68, nombre: 'Mega Vegetariano', precio: 10000, categoria: 'Megas' }
+  { id: 56, nombre: 'M. Italiano', precio: 16000, categoria: 'Megas' },
+  { id: 57, nombre: 'M. Especial mayo', precio: 13500, categoria: 'Megas' },
+  { id: 58, nombre: 'M. Tomate mayo', precio: 15000, categoria: 'Megas' },
+  { id: 59, nombre: 'M. Completo', precio: 16000, categoria: 'Megas' },
+  { id: 60, nombre: 'M. Aleman', precio: 16000, categoria: 'Megas' },
+  { id: 61, nombre: 'M. Barros Luco', precio: 16000, categoria: 'Megas' },
+  { id: 62, nombre: 'M. Chacarero', precio: 16000, categoria: 'Megas' },
+  { id: 63, nombre: 'M. Dinamico', precio: 17000, categoria: 'Megas' },
+  { id: 64, nombre: 'M. Brasileno', precio: 17000, categoria: 'Megas' },
+  { id: 65, nombre: 'M. Napolitano', precio: 17000, categoria: 'Megas' },
+  { id: 66, nombre: 'M. Chacarero Palta', precio: 17000, categoria: 'Megas' },
+  { id: 67, nombre: 'M. Italuco', precio: 17000, categoria: 'Megas' },
+  { id: 68, nombre: 'M. Vegetariano', precio: 10000, categoria: 'Megas' }
 ];
