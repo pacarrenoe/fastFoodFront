@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { categorias, productos } from '../../../assets/templates/productos-data';
 import { ToastrService } from 'ngx-toastr';
+import {Categoria} from "../../model/categoria.model";
+import {Producto} from "../../model/producto.model";
 
 @Component({
   selector: 'app-nuevopedido',
@@ -11,9 +13,9 @@ export class NuevopedidoComponent implements OnInit {
 
   categorias = categorias;
   productos = productos;
-  categoriaSeleccionada = this.categorias[0];
-  productosFiltrados: { id: number; nombre: string; precio: number; categoria: string; }[] = [];
-  pedido: any[] = [];
+  categoriaSeleccionada: Categoria = this.categorias[0];
+  productosFiltrados: Producto[] = [];
+  pedido: (Producto & { cantidad: number; comentario: string })[] = [];
   total = 0;
   nombreCliente: string = '';
 
@@ -23,9 +25,9 @@ export class NuevopedidoComponent implements OnInit {
     this.seleccionarCategoria(this.categoriaSeleccionada);
   }
 
-  seleccionarCategoria(categoria: string) {
+  seleccionarCategoria(categoria: Categoria) {
     this.categoriaSeleccionada = categoria;
-    this.productosFiltrados = this.productos.filter(p => p.categoria === categoria);
+    this.productosFiltrados = this.productos.filter(p => p.categoria === categoria.nombre);
   }
 
   agregarProducto(producto: any) {
@@ -47,6 +49,11 @@ export class NuevopedidoComponent implements OnInit {
     this.total = this.pedido.reduce((sum, item) => sum + item.precio * item.cantidad, 0);
   }
 
+  cancelarPedido() {
+    this.pedido = [];
+    this.total = 0;
+  }
+
   confirmarPedido() {
     const textoPlano = this.generarTextoBoleta();
 
@@ -58,13 +65,11 @@ export class NuevopedidoComponent implements OnInit {
       ventana.print();
       ventana.close();
       this.toastr.success('Pedido confirmado e impresión enviada', '');
-      this.pedido = []; // limpia pedido después de confirmar
+      this.pedido = [];
       this.total = 0;
     } else {
       this.toastr.error('No se pudo abrir la ventana de impresión');
     }
-
-    console.log('Pedido confirmado:', this.pedido);
   }
 
   generarTextoBoleta(): string {
@@ -85,8 +90,6 @@ export class NuevopedidoComponent implements OnInit {
     });
     texto += '********************************\n';
     texto += '.\n'.repeat(3);
-
     return texto;
   }
-
 }

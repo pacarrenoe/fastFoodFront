@@ -1,0 +1,36 @@
+.pedido-layout {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.producto-panel {
+  flex: 2;
+}
+
+.resumen-pedido {
+  flex: 1;
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  min-width: 300px;
+
+  .resumen-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+
+    button {
+      background: none;
+      border: none;
+      color: #dc3545;
+      cursor: pointer;
+    }
+  }
+
+  .total {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+  }
+}

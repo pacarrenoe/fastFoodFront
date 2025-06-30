@@ -1,1 +1,22 @@
-<p>productos-panel works!</p>
+<div class="pedido-layout">
+  <!-- IZQUIERDA: CATEGORÍAS Y PRODUCTOS -->
+  <div class="producto-panel">
+    <div class="categorias">
+      <button
+        *ngFor="let cat of categorias"
+        [class.selected]="cat.nombre === categoriaSeleccionada.nombre"
+        (click)="seleccionarCategoria(cat)">
+        {{ cat.nombre }}
+      </button>
+    </div>
+
+    <div class="productos-list">
+      <div *ngFor="let prod of productosFiltrados" class="producto-card" (click)="agregarProducto(prod)">
+        <div class="card-content">
+          <p>{{ prod.nombre }}</p>
+          <p>${{ prod.precio }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

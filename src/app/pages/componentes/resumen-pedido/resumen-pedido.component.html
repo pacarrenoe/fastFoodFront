@@ -1,1 +1,52 @@
-<p>resumen-pedido works!</p>
+<div class="resumen-pedido">
+  <div class="resumen-header">
+    <h4><i class="material-icons">receipt</i> Pedido actual</h4>
+  </div>
+
+  <div class="resumen-scroll">
+    <div *ngFor="let item of pedido" class="resumen-item">
+      <div class="detalle">
+        <strong>{{ item.cantidad }} x {{ item.nombre }}</strong> – ${{ item.precio * item.cantidad }}
+        <div class="form-group mt-1">
+          <label [for]="'comentario-' + item.id">Comentario:</label>
+          <input
+            id="{{ 'comentario-' + item.id }}"
+            type="text"
+            [(ngModel)]="item.comentario"
+            placeholder="Ej: sin mayo"
+            class="form-control form-control-sm"
+          />
+        </div>
+      </div>
+      <button class="btn btn-sm btn-danger" (click)="eliminar(item)">
+        <i class="material-icons">remove_circle_outline</i>
+      </button>
+    </div>
+  </div>
+
+  <div class="resumen-footer">
+    <div class="form-group">
+      <label for="cliente">Cliente:</label>
+      <input
+        id="cliente"
+        type="text"
+        [(ngModel)]="cliente"
+        (ngModelChange)="actualizarComentario()"
+        class="form-control"
+        placeholder="Nombre del cliente (opcional)" />
+    </div>
+
+    <div class="total">
+      <strong>Total: ${{ total }}</strong>
+    </div>
+
+    <div class="footer-buttons">
+      <button class="btn btn-secondary" (click)="cancelarP.emit()">
+        <i class="material-icons">cancel</i> Cancelar
+      </button>
+      <button class="btn btn-success" (click)="confirmarPedido()">
+        <i class="material-icons">print</i> Confirmar
+      </button>
+    </div>
+  </div>
+</div>
