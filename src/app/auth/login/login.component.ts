@@ -33,7 +33,6 @@ export class LoginComponent {
 
     this.authService.login(email, password).subscribe({
       next: () => {
-        this.toastr.success('¡Bienvenido!');
         this.loaderService.hide(); // ✅ Oculta cuando termina
       },
       error: (err) => {

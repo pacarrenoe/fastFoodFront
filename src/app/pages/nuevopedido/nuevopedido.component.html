@@ -1,0 +1,67 @@
+<div class="pedido-layout">
+  <!-- IZQUIERDA: CATEGORÍAS Y PRODUCTOS -->
+  <div class="producto-panel">
+    <div class="categorias">
+      <button
+        *ngFor="let cat of categorias"
+        [class.selected]="cat === categoriaSeleccionada"
+        (click)="seleccionarCategoria(cat)">
+        {{ cat }}
+      </button>
+    </div>
+
+    <div class="productos-list">
+      <div *ngFor="let prod of productosFiltrados" class="producto-card" (click)="agregarProducto(prod)">
+        <div class="card-content">
+          <p>{{ prod.nombre }}</p>
+          <p>${{ prod.precio }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DERECHA: RESUMEN DE PEDIDO -->
+  <div class="resumen-pedido">
+    <h4><i class="material-icons">receipt</i> Pedido actual</h4>
+
+    <div *ngFor="let item of pedido" class="resumen-item">
+      <div class="detalle">
+        <strong>{{ item.cantidad }} x {{ item.nombre }}</strong> – ${{ item.precio * item.cantidad }}
+
+        <div class="form-group mt-1">
+          <label [for]="'comentario-' + item.id">Comentario:</label>
+          <input
+            id="{{ 'comentario-' + item.id }}"
+            type="text"
+            [(ngModel)]="item.comentario"
+            placeholder="Ej: sin mayo"
+            class="form-control form-control-sm"
+          />
+        </div>
+      </div>
+      <button class="btn btn-sm btn-danger" (click)="quitarProducto(item)">
+        <i class="material-icons">remove_circle_outline</i>
+      </button>
+    </div>
+
+    <hr>
+
+    <div class="form-group">
+      <label for="cliente">Cliente:</label>
+      <input
+        id="cliente"
+        type="text"
+        [(ngModel)]="nombreCliente"
+        class="form-control"
+        placeholder="Nombre del cliente (opcional)" />
+    </div>
+
+    <div class="total mt-3">
+      <strong>Total: ${{ total }}</strong>
+    </div>
+
+    <button class="btn btn-success w-100 mt-2" (click)="confirmarPedido()">
+      <i class="material-icons">print</i> Confirmar pedido
+    </button>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<div id="topbar">
+  <div class="left">
+    <button id="menu-toggle" (click)="toggleMenu()">
+      <span class="material-icons">menu</span>
+    </button>
+  </div>
+
+  <div class="center">
+    <span class="datetime">{{ fechaActual }} - {{ horaActual }}</span>
+  </div>
+
+  <div class="right">
+    <button (click)="confirmarLogout()" class="logout" title="Cerrar sesión">
+      <span class="material-icons">exit_to_app</span>
+    </button>
+  </div>
+</div>
+
+
+<div id="wrapper" [class.menuDisplayed]="menuAbierto">
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+      <li>
+        <a routerLink="/nuevo-pedido">
+          <span class="material-icons">add_shopping_cart</span>
+          Nuevo pedido
+        </a>
+      </li>
+      <li>
+        <a routerLink="/pedidos">
+          <span class="material-icons">list_alt</span>
+          Pedidos
+        </a>
+      </li>
+      <li>
+        <a routerLink="/productos">
+          <span class="material-icons">people</span>
+          Clientes
+        </a>
+      </li>
+      <li>
+        <a routerLink="/configuracion">
+          <span class="material-icons">settings</span>
+          Configuración
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+    <router-outlet></router-outlet>
+  </div>
+</div>

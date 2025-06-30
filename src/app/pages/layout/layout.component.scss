@@ -1,0 +1,151 @@
+
+#sidebar-wrapper {
+  z-index: 1;
+  position: fixed;
+  width: 0;
+  height: 100vh;
+  overflow-y: hidden;
+  background: var(--background-primary);
+  transition: all 0.5s;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding-top: 30px;
+}
+
+#page-content-wrapper{
+  width: 100%;
+  position: absolute;
+  padding:15px;
+  transition:all .5s;
+}
+
+#menu-toggle{
+  transition:all .3s;
+  font-size:2em;
+}
+#wrapper.menuDisplayed #sidebar-wrapper{
+  width:250px;
+}
+
+#wrapper.menuDisplayed #page-content-wrapper{
+  padding-left:250px;
+}
+
+/* Sidebar styling */
+.sidebar-nav{
+  padding:0;
+  list-style:none;
+  transition:all .5s;
+  width:100%;
+  text-align:center;
+}
+
+.sidebar-nav li{
+  line-height:40px;
+  width:100%;
+  transition:all .3s;
+  padding:10px;
+}
+
+.sidebar-nav li a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-start;
+  padding: 10px;
+  text-decoration: none;
+  color: var(--letter-primary);
+}
+
+.sidebar-nav li:hover{
+  background:var(--hover-bl);
+}
+
+
+
+#topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--background-primary);
+  color: var(--letter-primary);
+  padding: 0.5rem 1rem;
+
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    #menu-toggle {
+      background: transparent;
+      border: none;
+      color: var(--letter-primary);
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+
+      .material-icons {
+        font-size: 28px;
+      }
+    }
+
+    .user-icon {
+      font-size: 24px;
+    }
+
+    .username {
+      font-weight: 600;
+    }
+
+    .loader-placeholder {
+      display: inline-block;
+      width: 120px;
+      height: 40px;
+      background: var(--placeholder-background);
+      background-size: 200% 100%;
+      animation: shimmer 1.2s infinite linear;
+      border-radius: 4px;
+    }
+  }
+
+  .center {
+    font-weight: bold;
+    font-size: 1rem;
+    background: var(--background-bl);
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .logout {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--background-wh);
+
+      .material-icons {
+        font-size: 24px;
+      }
+
+      &:hover {
+        color: var(--hover-bl);
+      }
+    }
+  }
+}
+
+
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

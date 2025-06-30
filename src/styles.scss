@@ -46,3 +46,6 @@ button {
   //Placeholder
   --placeholder-background: linear-gradient(90deg, #cccccc 25%, #e0e0e0 50%, #cccccc 75%)
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

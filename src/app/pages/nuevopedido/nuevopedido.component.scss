@@ -1,0 +1,88 @@
+.pedido-layout {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.producto-panel {
+  flex: 2;
+}
+
+.resumen-pedido {
+  flex: 1;
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  min-width: 300px;
+
+  .resumen-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+
+    button {
+      background: none;
+      border: none;
+      color: #dc3545;
+      cursor: pointer;
+    }
+  }
+
+  .total {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+  }
+}
+
+.categorias {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+
+  button {
+    background-color: #eeeeee;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &.selected {
+      background-color: #007bff;
+      color: white;
+    }
+
+    &:hover {
+      background-color: #ddd;
+    }
+  }
+}
+
+.productos-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.producto-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    background-color: #0d4a7a;
+    color: white;
+    cursor: pointer;
+  }
+}

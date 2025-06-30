@@ -13,8 +13,9 @@ export class NoAuthGuard implements CanActivate {
   ) {}
 
   canActivate(): boolean {
-    if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/']); // redirige al inicio si ya está logueado
+    const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+    if (isLoggedIn) {
+      this.router.navigate(['/']);
       return false;
     } else {
       return true;

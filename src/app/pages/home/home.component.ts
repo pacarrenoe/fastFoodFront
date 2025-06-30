@@ -7,9 +7,5 @@ import {AuthService} from "../../services/auth.service";
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  constructor(public authService: AuthService) {}
 
-  logout() {
-    this.authService.logout().subscribe();
-  }
 }
