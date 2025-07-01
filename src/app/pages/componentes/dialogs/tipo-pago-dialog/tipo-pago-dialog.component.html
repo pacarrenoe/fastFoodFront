@@ -1,0 +1,17 @@
+<div class="dialog-container">
+  <button class="close-btn" (click)="onCancel()" mat-icon-button>
+    <span class="material-icons">close</span>
+  </button>
+
+  <h2 class="dialog-title">Selecciona tipo de pago</h2>
+
+  <div class="dialog-content">
+    <p>¿Cómo pagará el cliente?</p>
+  </div>
+
+  <div class="dialog-actions pago">
+    <button mat-flat-button color="primary" (click)="seleccionar('Efectivo')">Efectivo</button>
+    <button mat-flat-button color="accent" (click)="seleccionar('Tarjeta')">Tarjeta</button>
+    <button mat-flat-button color="warn" (click)="seleccionar('Transferencia')">Transferencia</button>
+  </div>
+</div>

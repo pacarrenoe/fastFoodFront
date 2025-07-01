@@ -15,6 +15,7 @@ import { ConfirmDialogComponent } from './shared/dialogs/confirm-dialog/confirm-
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {MatFormFieldModule} from "@angular/material/form-field";
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
       preventDuplicates: true
     }),
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    MatFormFieldModule
   ],
   providers: [
     provideFirebaseApp(() => initializeApp(environment.firebase)),

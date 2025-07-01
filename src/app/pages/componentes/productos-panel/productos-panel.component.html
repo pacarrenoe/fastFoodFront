@@ -3,7 +3,7 @@
   <div class="categorias">
     <button
       *ngFor="let categoria of categorias"
-      [class.seleccionada]="categoriaSeleccionada?.id === categoria.id"
+      [class.seleccionada]="categoriaSeleccionada.id === categoria.id"
       (click)="seleccionarCategoria(categoria)"
     >
       {{ categoria.nombre }}

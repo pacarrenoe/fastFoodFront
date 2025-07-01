@@ -8,7 +8,11 @@ export const categorias: Categoria[] = [
   { id: '3', nombre: 'Ass' },
   { id: '4', nombre: 'Churrascos' },
   { id: '5', nombre: 'Megas' },
-  { id: '6', nombre: 'Bebestibles' },
+  { id: '6', nombre: 'Salsas'},
+  { id: '7', nombre: 'Bebidas' },
+  { id: '8', nombre: 'Té' },
+  { id: '9', nombre: 'Café' },
+  { id: '10', nombre: 'Energeticas' },
 ];
 
 export const productos: Producto[] = [
@@ -18,19 +22,19 @@ export const productos: Producto[] = [
   { id: 4, nombre: 'Salchipapa grande', precio: 4000, categoria: 'Papas fritas' },
   { id: 5, nombre: 'Brigido', precio: 9000, categoria: 'Papas fritas' },
   { id: 6, nombre: 'Papa Suprema', precio: 10000, categoria: 'Papas fritas' },
-  { id: 7, nombre: 'Mayonesa casera', precio: 500, categoria: 'Papas fritas' },
-  { id: 8, nombre: 'Salsa queso cheddar', precio: 500, categoria: 'Papas fritas' },
+  { id: 7, nombre: 'Mayonesa casera', precio: 500, categoria: 'Salsas' },
+  { id: 8, nombre: 'Salsa queso cheddar', precio: 500, categoria: 'Salsas' },
 
   // Bebestibles
-  { id: 9, nombre: 'Bebida express', precio: 800, categoria: 'Bebestibles' },
-  { id: 10, nombre: 'Bebida lata', precio: 1300, categoria: 'Bebestibles' },
-  { id: 11, nombre: 'Bebida 1.5L', precio: 2400, categoria: 'Bebestibles' },
-  { id: 12, nombre: 'Bebida 2L', precio: 2700, categoria: 'Bebestibles' },
-  { id: 13, nombre: 'Jugo néctar 1.5L', precio: 1900, categoria: 'Bebestibles' },
-  { id: 14, nombre: 'Bebida energética Monster', precio: 800, categoria: 'Bebestibles' },
-  { id: 15, nombre: 'Bebida energética Score', precio: 1300, categoria: 'Bebestibles' },
-  { id: 16, nombre: 'Café', precio: 1000, categoria: 'Bebestibles' },
-  { id: 17, nombre: 'Té', precio: 800, categoria: 'Bebestibles' },
+  { id: 9, nombre: 'Bebida express', precio: 800, categoria: 'Bebidas' },
+  { id: 10, nombre: 'Bebida lata', precio: 1300, categoria: 'Bebidas' },
+  { id: 11, nombre: 'Bebida 1.5L', precio: 2400, categoria: 'Bebidas' },
+  { id: 12, nombre: 'Bebida 2L', precio: 2700, categoria: 'Bebidas' },
+  { id: 13, nombre: 'Jugo néctar 1.5L', precio: 1900, categoria: 'Bebidas' },
+  { id: 14, nombre: 'Energética Monster', precio: 800, categoria: 'Energeticas' },
+  { id: 15, nombre: 'Energética Score', precio: 1300, categoria: 'Energeticas' },
+  { id: 16, nombre: 'Café', precio: 1000, categoria: 'Café' },
+  { id: 17, nombre: 'Té', precio: 800, categoria: 'Té' },
 
   // Sándwiches por tipo base
   // Vianesa

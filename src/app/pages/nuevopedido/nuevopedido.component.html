@@ -1,20 +1,22 @@
 <div class="pedido-layout">
-  <app-productos-panel
-    class="productos-panel"
-    [categorias]="categorias"
-    [categoriaSeleccionada]="categoriaSeleccionada"
-    [productosFiltrados]="productosFiltrados"
-    (cambiarCategoria)="seleccionarCategoria($event)"
-    (agregar)="agregarProducto($event)">
-  </app-productos-panel>
+  <div class="productos-panel">
+    <app-productos-panel
+      [categorias]="categorias"
+      [categoriaSeleccionada]="categoriaSeleccionada"
+      [productosFiltrados]="productosFiltrados"
+      (cambiarCategoria)="seleccionarCategoria($event)"
+      (agregar)="agregarProducto($event)">
+    </app-productos-panel>
+  </div>
 
-  <app-resumen-pedido
-    class="resumen-pedido"
-    [pedido]="pedido"
-    [total]="total"
-    [(cliente)]="nombreCliente"
-    (quitar)="quitarProducto($event)"
-    (confirmar)="confirmarPedido()"
-    (cancelarP)="cancelarPedido()">
-  </app-resumen-pedido>
+  <div class="resumen-pedido">
+    <app-resumen-pedido
+      [pedido]="pedido"
+      [total]="total"
+      [(cliente)]="nombreCliente"
+      (quitar)="quitarProducto($event)"
+      (confirmar)="confirmarPedido($event)"
+      (cancelarP)="cancelarPedido()">
+    </app-resumen-pedido>
+  </div>
 </div>

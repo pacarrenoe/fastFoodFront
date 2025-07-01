@@ -1,0 +1,54 @@
+.dialog-container {
+  background: #fff;
+  padding: 24px;
+  min-width: 320px;
+  max-width: 420px;
+  text-align: center;
+  border-radius: 10px;
+  position: relative;
+
+  .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    font-size: 20px;
+
+    &:hover {
+      color: #000;
+    }
+
+    .material-icons {
+      font-size: 24px;
+    }
+  }
+
+  .dialog-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #333;
+  }
+
+  .dialog-content {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 24px;
+  }
+
+  .dialog-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+
+    button {
+      min-width: 110px;
+      font-weight: 500;
+      padding: 8px 16px;
+    }
+  }
+}

@@ -1,52 +1,61 @@
-<div class="resumen-pedido">
+<div class="resumen-pedido-contenedor">
+  <!-- Cliente -->
   <div class="resumen-header">
-    <h4><i class="material-icons">receipt</i> Pedido actual</h4>
+    <h2>Seleccionar cliente</h2>
+    <input type="text" [(ngModel)]="cliente" (blur)="actualizarComentario()" placeholder="Nombre o número del cliente" />
   </div>
 
-  <div class="resumen-scroll">
-    <div *ngFor="let item of pedido" class="resumen-item">
-      <div class="detalle">
-        <strong>{{ item.cantidad }} x {{ item.nombre }}</strong> – ${{ item.precio * item.cantidad }}
-        <div class="form-group mt-1">
-          <label [for]="'comentario-' + item.id">Comentario:</label>
+  <!-- Lista de productos -->
+  <div class="resumen-productos">
+    <div *ngFor="let item of pedido" class="producto-linea">
+      <div class="producto-linea-continua">
+        <div class="detalle">
           <input
-            id="{{ 'comentario-' + item.id }}"
-            type="text"
-            [(ngModel)]="item.comentario"
-            placeholder="Ej: sin mayo"
-            class="form-control form-control-sm"
+            type="number"
+            class="cantidad-input"
+            [(ngModel)]="item.cantidad"
+            min="1"
+            (blur)="actualizarCantidad(item)"
           />
+          {{ item.nombre }} – ${{ (item.precio * item.cantidad) | number:'1.0-0' }}
+        </div>
+        <div class="acciones">
+          <button (click)="toggleComentario(item)" title="Comentario"><span class="material-icons comentario">comment</span></button>
+          <button (click)="toggleDescuento(item)" title="Descuento"><span class="material-icons descuento">percent</span></button>
+          <button (click)="eliminar(item)" title="Eliminar"><span class="material-icons eliminar">cancel</span></button>
         </div>
       </div>
-      <button class="btn btn-sm btn-danger" (click)="eliminar(item)">
-        <i class="material-icons">remove_circle_outline</i>
-      </button>
+
+      <div *ngIf="item.editandoComentario" class="campo-edicion">
+        <textarea [(ngModel)]="item.comentario" placeholder="Comentario..."></textarea>
+        <button (click)="confirmarComentario(item)" title="Aceptar"><span class="material-icons">check</span></button>
+      </div>
+      <div *ngIf="item.editandoDescuento" class="campo-edicion">
+        <input type="number" [(ngModel)]="item.descuento" placeholder="Descuento en CLP" />
+        <button (click)="confirmarDescuento(item)" title="Aceptar"><span class="material-icons">check</span></button>
+      </div>
     </div>
   </div>
 
+  <!-- Totales y acciones -->
   <div class="resumen-footer">
-    <div class="form-group">
-      <label for="cliente">Cliente:</label>
-      <input
-        id="cliente"
-        type="text"
-        [(ngModel)]="cliente"
-        (ngModelChange)="actualizarComentario()"
-        class="form-control"
-        placeholder="Nombre del cliente (opcional)" />
+
+
+    <div class="resumen-totales">
+      <span>{{ contarItems() }} ítems</span>
+      <span>Subtotal: ${{ total | number: '1.0-0' }}</span>
+      <span class="total">Total: ${{ calcularTotal() | number: '1.0-0' }}</span>
     </div>
 
-    <div class="total">
-      <strong>Total: ${{ total }}</strong>
+    <div class="resumen-desglose">
+      <span *ngFor="let cat of getConteoPorCategoria() | keyvalue">
+        {{ cat.value }} {{ cat.key }}
+      </span>
     </div>
 
-    <div class="footer-buttons">
-      <button class="btn btn-secondary" (click)="cancelarP.emit()">
-        <i class="material-icons">cancel</i> Cancelar
-      </button>
-      <button class="btn btn-success" (click)="confirmarPedido()">
-        <i class="material-icons">print</i> Confirmar
-      </button>
+    <div class="resumen-action">
+      <button class="cancelar" (click)="cancelarP.emit()"><span class="material-icons comentario">delete_forever</span></button>
+      <button class="confirmar" (click)="confirmarcompra()">Confirmar pedido</button>
     </div>
   </div>
 </div>

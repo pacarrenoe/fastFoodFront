@@ -11,6 +11,11 @@ import { LayoutComponent } from './layout/layout.component';
 import {FormsModule} from "@angular/forms";
 import { ProductosPanelComponent } from './componentes/productos-panel/productos-panel.component';
 import { ResumenPedidoComponent } from './componentes/resumen-pedido/resumen-pedido.component';
+import { TipoPagoDialogComponent } from './componentes/dialogs/tipo-pago-dialog/tipo-pago-dialog.component';
+import {MatDialogActions, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
+import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
+import {MatOption, MatSelect} from "@angular/material/select";
+import {MatButton} from "@angular/material/button";
 
 
 @NgModule({
@@ -22,12 +27,21 @@ import { ResumenPedidoComponent } from './componentes/resumen-pedido/resumen-ped
     ConfiguracionComponent,
     LayoutComponent,
     ProductosPanelComponent,
-    ResumenPedidoComponent
+    ResumenPedidoComponent,
+    TipoPagoDialogComponent
   ],
   imports: [
     CommonModule,
     PagesRoutingModule,
-    FormsModule
+    FormsModule,
+    MatDialogContent,
+    MatFormField,
+    MatSelect,
+    MatOption,
+    MatDialogActions,
+    MatButton,
+    MatDialogTitle,
+    MatFormFieldModule
   ]
 })
 export class PagesModule { }

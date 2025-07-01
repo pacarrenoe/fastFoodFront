@@ -3,6 +3,9 @@ import { categorias, productos } from '../../../assets/templates/productos-data'
 import { ToastrService } from 'ngx-toastr';
 import {Categoria} from "../../model/categoria.model";
 import {Producto} from "../../model/producto.model";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmDialogComponent} from "../../shared/dialogs/confirm-dialog/confirm-dialog.component";
+import {TipoPagoDialogComponent} from "../componentes/dialogs/tipo-pago-dialog/tipo-pago-dialog.component";
 
 @Component({
   selector: 'app-nuevopedido',
@@ -19,7 +22,8 @@ export class NuevopedidoComponent implements OnInit {
   total = 0;
   nombreCliente: string = '';
 
-  constructor(private toastr: ToastrService) {}
+  constructor(private dialog: MatDialog, private toastr: ToastrService) {}
+
 
   ngOnInit() {
     this.seleccionarCategoria(this.categoriaSeleccionada);
@@ -54,41 +58,117 @@ export class NuevopedidoComponent implements OnInit {
     this.total = 0;
   }
 
-  confirmarPedido() {
-    const textoPlano = this.generarTextoBoleta();
+  confirmarPedido(resumen: any) {
+    const tipoDialog = this.dialog.open(TipoPagoDialogComponent, {
+    });
 
-    const ventana = window.open('', '', 'width=250,height=600');
-    if (ventana) {
-      ventana.document.write(`<pre>${textoPlano}</pre>`);
-      ventana.document.close();
-      ventana.focus();
-      ventana.print();
-      ventana.close();
-      this.toastr.success('Pedido confirmado e impresión enviada', '');
-      this.pedido = [];
-      this.total = 0;
-    } else {
-      this.toastr.error('No se pudo abrir la ventana de impresión');
-    }
+    tipoDialog.afterClosed().subscribe(tipo => {
+      if (!tipo) return; // Si el usuario cancela, no se hace nada
+
+      console.log('Tipo de pago seleccionado:', tipo);
+      resumen.tipoPago = tipo;
+
+      // 1. Imprimir boleta de caja
+      const textoCaja = this.generarBoletaCaja(resumen, tipo);
+      const ventanaCaja = window.open('', '', 'width=250,height=600');
+      if (ventanaCaja) {
+        ventanaCaja.document.write(`<pre>${textoCaja}</pre>`);
+        ventanaCaja.document.close();
+        ventanaCaja.focus();
+        ventanaCaja.print();
+        ventanaCaja.close();
+      }
+
+      // 2. Preguntar si se imprime cocina
+      const cocinaDialog = this.dialog.open(ConfirmDialogComponent, {
+        data: {
+          title: 'Imprimir boleta de cocina',
+          message: '¿Deseas imprimir también la boleta para cocina?'
+        }
+      });
+
+      cocinaDialog.afterClosed().subscribe(confirmado => {
+        if (confirmado === true) {
+          const textoCocina = this.generarBoletaCocina(resumen);
+          const ventanaCocina = window.open('', '', 'width=250,height=600');
+          if (ventanaCocina) {
+            ventanaCocina.document.write(`<pre>${textoCocina}</pre>`);
+            ventanaCocina.document.close();
+            ventanaCocina.focus();
+            ventanaCocina.print();
+            ventanaCocina.close();
+          }
+        }
+
+        this.toastr.success('Pedido confirmado', '');
+        this.pedido = [];
+        this.total = 0;
+      });
+    });
   }
 
-  generarTextoBoleta(): string {
+  generarBoletaCocina(resumen: any): string {
+    const categoriasCocina = ['Ass', 'Vianesas', 'Churrascos', 'Megas', 'Papas fritas'];
+
     let texto = '';
     texto += '.\n'.repeat(2);
-    texto += '*******************************\n';
-    texto += ' Hora: ' + new Date().toLocaleTimeString() + '\n';
-    texto += '.\n';
-    texto += ` Cliente: ${this.nombreCliente || 'Sin nombre'}\n\n`;
-    texto += '********************************\n';
-    texto += '.\n';
-    this.pedido.forEach(item => {
-      texto += `${item.cantidad} x ${item.nombre}\n`;
+    texto += '******* COCINA *******\n';
+    texto += `Hora: ${new Date().toLocaleTimeString()}\n`;
+    texto += `Cliente: ${resumen.cliente || 'Sin nombre'}\n`;
+    texto += '-------------------------\n';
+
+    const conteo: { [categoria: string]: number } = {};
+
+    resumen.items
+      .filter((item: any) => categoriasCocina.includes(item.categoria))
+      .forEach((item: any) => {
+        texto += `${item.cantidad} x ${item.nombre}\n`;
+        if (item.comentario?.trim()) {
+          texto += `- Obs: ${item.comentario}\n`;
+        }
+        texto += '--\n';
+
+        // Sumar cantidad por categoría
+        if (!conteo[item.categoria]) {
+          conteo[item.categoria] = 0;
+        }
+        conteo[item.categoria] += item.cantidad;
+      });
+
+    texto += '-------------------------\n';
+    Object.entries(conteo).forEach(([categoria, cantidad]) => {
+      texto += `${cantidad} x ${categoria}\n`;
+    });
+    texto += '-------------------------\n';
+    texto += '.\n'.repeat(3);
+    return texto;
+  }
+
+
+  generarBoletaCaja(resumen: any, tipo: any): string {
+    let texto = '';
+    texto += '.\n'.repeat(2);
+    texto += '********** VENTA **********\n';
+    texto += `Hora: ${new Date().toLocaleTimeString()}\n`;
+    texto += `Cliente: ${resumen.cliente || 'Sin nombre'}\n`;
+    texto += '------------------------------\n';
+
+    resumen.items.forEach((item: any) => {
+      const linea = `${item.cantidad} x ${item.nombre} $${item.precio}`;
+      texto += linea + '\n';
+      if (item.descuento > 0) {
+        texto += `- Desc: $${item.descuento} c/u\n`;
+      }
       if (item.comentario?.trim()) {
-        texto += `Obs: ${item.comentario}\n`;
+        texto += `- Obs: ${item.comentario}\n`;
       }
       texto += '--\n';
     });
-    texto += '********************************\n';
+
+    texto += '------------------------------\n';
+    texto += `TOTAL: $${resumen.total}\n`;
+    texto += `TIPO DE PAGO: ${tipo}\n`;
+    texto += '------------------------------\n';
     texto += '.\n'.repeat(3);
     return texto;
   }
