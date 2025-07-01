@@ -2,7 +2,6 @@
   <!-- Cliente -->
   <div class="resumen-header">
     <h2>Seleccionar cliente</h2>
-    <input type="text" [(ngModel)]="cliente" (blur)="actualizarComentario()" placeholder="Nombre o número del cliente" />
   </div>
 
   <!-- Lista de productos -->
@@ -39,6 +38,9 @@
 
   <!-- Totales y acciones -->
   <div class="resumen-footer">
+    <div class="resumen-cliente">
+      <input type="text" [(ngModel)]="cliente" (blur)="actualizarComentario()" placeholder="Ingrese el nombre o el celular del cliente *OBLIGATORIO*" />
+    </div>
 
 
     <div class="resumen-totales">

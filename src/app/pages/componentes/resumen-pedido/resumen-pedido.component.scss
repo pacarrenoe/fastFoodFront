@@ -19,12 +19,6 @@
     text-align: center;
     font-size: 1.5em;
   }
-
-  input {
-    padding: 6px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
 }
 
 .resumen-productos {
@@ -132,6 +126,20 @@
 
 .resumen-footer {
   border-top: 2px solid #cdcdcd;
+
+  .resumen-cliente {
+    margin-top: 10px;
+
+    input {
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+
 
   .resumen-totales {
     display: flex;
