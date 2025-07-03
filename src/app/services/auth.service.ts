@@ -26,6 +26,11 @@ export class AuthService {
   login(email: string, password: string): Observable<any> {
     return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
       tap((credentials) => {
+        // Obtiene el token de Firebase
+        credentials.user?.getIdToken().then(token => {
+          sessionStorage.setItem('authToken', token); // ✅ Guardamos el token
+        });
+
         sessionStorage.setItem('isLoggedIn', 'true');
         this.userSubject.next(credentials.user);
         this.router.navigateByUrl('/');
