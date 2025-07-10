@@ -6,7 +6,23 @@
 
       <form [formGroup]="loginForm" (ngSubmit)="login()">
         <input type="email" formControlName="email" placeholder="Correo electrónico" />
-        <input type="password" formControlName="password" placeholder="Contraseña" />
+        <div class="password-container">
+          <input
+            [type]="hidePassword ? 'password' : 'text'"
+            formControlName="password"
+            placeholder="Contraseña"
+          />
+          <button
+            type="button"
+            class="toggle-password-btn"
+            (click)="togglePasswordVisibility()"
+          >
+            <span class="material-icons">
+              {{ hidePassword ? 'visibility' : 'visibility_off' }}
+            </span>
+          </button>
+        </div>
+
         <button type="submit" class="login-btn">Ingresar</button>
       </form>
 

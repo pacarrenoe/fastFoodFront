@@ -24,6 +24,12 @@ export class LoginComponent {
     });
   }
 
+  hidePassword = true;
+
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
+  }
+
   login(): void {
     if (this.loginForm.invalid) return;
 
