@@ -66,14 +66,12 @@ export class ResumenPedidoComponent implements OnChanges {
     }
   }
 
-  getConteoPorCategoria(): { [categoria: string]: number } {
-    const conteo: { [categoria: string]: number } = {};
-
-    for (const item of this.pedido) {
-      const categoria = item.categoria || 'otro';
-      conteo[categoria] = (conteo[categoria] || 0) + item.cantidad;
-    }
-
+  getConteoPorCategoria(): { [key: string]: number } {
+    const conteo: { [key: string]: number } = {};
+    this.pedido.forEach((item) => {
+      const nombreCategoria = item.categoria.nombre ?? 'Sin categoría';
+      conteo[nombreCategoria] = (conteo[nombreCategoria] || 0) + item.cantidad;
+    });
     return conteo;
   }
 

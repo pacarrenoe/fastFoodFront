@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { categorias, productos } from '../../../assets/templates/productos-data';
 import { ToastrService } from 'ngx-toastr';
-import {Categoria} from "../../model/categoria.model";
-import {Producto} from "../../model/producto.model";
-import {MatDialog} from "@angular/material/dialog";
-import {ConfirmDialogComponent} from "../../shared/dialogs/confirm-dialog/confirm-dialog.component";
-import {TipoPagoDialogComponent} from "../componentes/dialogs/tipo-pago-dialog/tipo-pago-dialog.component";
+import { Categoria } from "../../model/categoria.model";
+import { Producto } from "../../model/producto.model";
+import { MatDialog } from "@angular/material/dialog";
+import { ConfirmDialogComponent } from "../../shared/dialogs/confirm-dialog/confirm-dialog.component";
+import { TipoPagoDialogComponent } from "../componentes/dialogs/tipo-pago-dialog/tipo-pago-dialog.component";
+import { CategoriaService } from "../../services/nuevo-pedido/categoria.service";
+import { ProductoService } from "../../services/nuevo-pedido/producto.service";
 
 @Component({
   selector: 'app-nuevopedido',
@@ -14,27 +15,88 @@ import {TipoPagoDialogComponent} from "../componentes/dialogs/tipo-pago-dialog/t
 })
 export class NuevopedidoComponent implements OnInit {
 
-  categorias = categorias;
-  productos = productos;
-  categoriaSeleccionada: Categoria = this.categorias[0];
+  categorias: Categoria[] = [];
+  productos: Producto[] = [];
+  categoriaSeleccionada!: Categoria;
   productosFiltrados: Producto[] = [];
   pedido: (Producto & { cantidad: number; comentario: string })[] = [];
   total = 0;
   nombreCliente: string = '';
 
-  constructor(private dialog: MatDialog, private toastr: ToastrService) {}
-
+  constructor(
+    private dialog: MatDialog,
+    private toastr: ToastrService,
+    private categoriaService: CategoriaService,
+    private productoService: ProductoService
+  ) {}
 
   ngOnInit() {
-    this.seleccionarCategoria(this.categoriaSeleccionada);
+    this.cargarDatos();
+  }
+
+  private cargarDatos() {
+    const categoriasStorage = sessionStorage.getItem('categorias');
+    const productosStorage = sessionStorage.getItem('productos');
+
+    if (categoriasStorage && productosStorage) {
+      console.log('✅ Datos cargados desde sessionStorage');
+      this.categorias = JSON.parse(categoriasStorage);
+
+      this.productos = JSON.parse(productosStorage).map((p: any) => ({
+        ...p,
+        categoria: typeof p.categoria === 'string' ? JSON.parse(p.categoria) : p.categoria
+      }));
+
+      this.inicializarVista();
+    } else {
+      console.log('📡 Llamando al backend para cargar datos...');
+      this.categoriaService.getCategorias().subscribe({
+        next: (categorias) => {
+          this.categorias = categorias;
+          sessionStorage.setItem('categorias', JSON.stringify(categorias));
+          this.inicializarVista();
+        },
+        error: (err) => {
+          this.toastr.error('Error al cargar categorías');
+          console.error(err);
+        }
+      });
+
+      this.productoService.getProductos().subscribe({
+        next: (productos) => {
+          const productosConCategoria = productos.map((p: any) => ({
+            ...p,
+            categoria: typeof p.categoria === 'string' ? JSON.parse(p.categoria) : p.categoria
+          }));
+          this.productos = productosConCategoria;
+          sessionStorage.setItem('productos', JSON.stringify(productosConCategoria));
+        },
+        error: (err) => {
+          this.toastr.error('Error al cargar productos');
+          console.error(err);
+        }
+      });
+    }
+  }
+
+
+  private inicializarVista() {
+    if (this.categorias.length > 0) {
+      this.seleccionarCategoria(this.categorias[0]);
+    }
   }
 
   seleccionarCategoria(categoria: Categoria) {
     this.categoriaSeleccionada = categoria;
-    this.productosFiltrados = this.productos.filter(p => p.categoria === categoria.nombre);
+    this.productosFiltrados = this.productos.filter((p) => {
+      const categoriaProducto = typeof p.categoria === 'string'
+        ? JSON.parse(p.categoria)
+        : p.categoria;
+      return categoriaProducto.id === categoria.id;
+    });
   }
 
-  agregarProducto(producto: any) {
+  agregarProducto(producto: Producto) {
     const encontrado = this.pedido.find(p => p.id === producto.id);
     if (encontrado) {
       encontrado.cantidad++;
@@ -44,7 +106,7 @@ export class NuevopedidoComponent implements OnInit {
     this.actualizarTotal();
   }
 
-  quitarProducto(producto: any) {
+  quitarProducto(producto: Producto) {
     this.pedido = this.pedido.filter(p => p.id !== producto.id);
     this.actualizarTotal();
   }
@@ -59,27 +121,17 @@ export class NuevopedidoComponent implements OnInit {
   }
 
   confirmarPedido(resumen: any) {
-    const tipoDialog = this.dialog.open(TipoPagoDialogComponent, {
-    });
+    const tipoDialog = this.dialog.open(TipoPagoDialogComponent);
 
     tipoDialog.afterClosed().subscribe(tipo => {
-      if (!tipo) return; // Si el usuario cancela, no se hace nada
+      if (!tipo) return;
 
       console.log('Tipo de pago seleccionado:', tipo);
       resumen.tipoPago = tipo;
 
-      // 1. Imprimir boleta de caja
       const textoCaja = this.generarBoletaCaja(resumen, tipo);
-      const ventanaCaja = window.open('', '', 'width=250,height=600');
-      if (ventanaCaja) {
-        ventanaCaja.document.write(`<pre>${textoCaja}</pre>`);
-        ventanaCaja.document.close();
-        ventanaCaja.focus();
-        ventanaCaja.print();
-        ventanaCaja.close();
-      }
+      this.imprimirTexto(textoCaja);
 
-      // 2. Preguntar si se imprime cocina
       const cocinaDialog = this.dialog.open(ConfirmDialogComponent, {
         data: {
           title: 'Imprimir boleta de cocina',
@@ -90,29 +142,30 @@ export class NuevopedidoComponent implements OnInit {
       cocinaDialog.afterClosed().subscribe(confirmado => {
         if (confirmado === true) {
           const textoCocina = this.generarBoletaCocina(resumen);
-          const ventanaCocina = window.open('', '', 'width=250,height=600');
-          if (ventanaCocina) {
-            ventanaCocina.document.write(`<pre>${textoCocina}</pre>`);
-            ventanaCocina.document.close();
-            ventanaCocina.focus();
-            ventanaCocina.print();
-            ventanaCocina.close();
-          }
+          this.imprimirTexto(textoCocina);
         }
 
-        this.toastr.success('Pedido confirmado', '');
+        this.toastr.success('Pedido confirmado');
         this.pedido = [];
         this.total = 0;
       });
     });
   }
 
-  generarBoletaCocina(resumen: any): string {
-    const categoriasCocina = ['Ass', 'Vianesas', 'Churrascos', 'Megas', 'Papas fritas'];
+  private imprimirTexto(texto: string) {
+    const ventana = window.open('', '', 'width=250,height=600');
+    if (ventana) {
+      ventana.document.write(`<pre>${texto}</pre>`);
+      ventana.document.close();
+      ventana.focus();
+      ventana.print();
+      ventana.close();
+    }
+  }
 
-    let texto = '';
-    texto += '.\n'.repeat(2);
-    texto += '******* COCINA *******\n';
+  private generarBoletaCocina(resumen: any): string {
+    const categoriasCocina = ['Ass', 'Vianesas', 'Churrascos', 'Megas', 'Papas fritas'];
+    let texto = '******* COCINA *******\n';
     texto += `Hora: ${new Date().toLocaleTimeString()}\n`;
     texto += `Cliente: ${resumen.cliente || 'Sin nombre'}\n`;
     texto += '-------------------------\n';
@@ -120,42 +173,32 @@ export class NuevopedidoComponent implements OnInit {
     const conteo: { [categoria: string]: number } = {};
 
     resumen.items
-      .filter((item: any) => categoriasCocina.includes(item.categoria))
+      .filter((item: any) => categoriasCocina.includes(item.categoria.nombre))
       .forEach((item: any) => {
         texto += `${item.cantidad} x ${item.nombre}\n`;
         if (item.comentario?.trim()) {
           texto += `- Obs: ${item.comentario}\n`;
         }
         texto += '--\n';
-
-        // Sumar cantidad por categoría
-        if (!conteo[item.categoria]) {
-          conteo[item.categoria] = 0;
-        }
-        conteo[item.categoria] += item.cantidad;
+        conteo[item.categoria.nombre] = (conteo[item.categoria.nombre] || 0) + item.cantidad;
       });
 
     texto += '-------------------------\n';
     Object.entries(conteo).forEach(([categoria, cantidad]) => {
       texto += `${cantidad} x ${categoria}\n`;
     });
-    texto += '-------------------------\n';
-    texto += '.\n'.repeat(3);
+    texto += '-------------------------\n\n\n';
     return texto;
   }
 
-
-  generarBoletaCaja(resumen: any, tipo: any): string {
-    let texto = '';
-    texto += '.\n'.repeat(2);
-    texto += '********** VENTA **********\n';
+  private generarBoletaCaja(resumen: any, tipo: any): string {
+    let texto = '********** VENTA **********\n';
     texto += `Hora: ${new Date().toLocaleTimeString()}\n`;
     texto += `Cliente: ${resumen.cliente || 'Sin nombre'}\n`;
     texto += '------------------------------\n';
 
     resumen.items.forEach((item: any) => {
-      const linea = `${item.cantidad} x ${item.nombre} $${item.precio}`;
-      texto += linea + '\n';
+      texto += `${item.cantidad} x ${item.nombre} $${item.precio}\n`;
       if (item.descuento > 0) {
         texto += `- Desc: $${item.descuento} c/u\n`;
       }
@@ -168,8 +211,7 @@ export class NuevopedidoComponent implements OnInit {
     texto += '------------------------------\n';
     texto += `TOTAL: $${resumen.total}\n`;
     texto += `TIPO DE PAGO: ${tipo}\n`;
-    texto += '------------------------------\n';
-    texto += '.\n'.repeat(3);
+    texto += '------------------------------\n\n\n';
     return texto;
   }
 }

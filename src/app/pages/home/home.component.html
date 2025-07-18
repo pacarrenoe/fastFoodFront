@@ -1,4 +1,73 @@
 <div class="container mt-5">
   <h2>Bienvenido al sistema de pedidos</h2>
   <p>Has iniciado sesión correctamente.</p>
+  <div>
+    <button (click)="imprimirBoleta()" class="btn btn-primary">
+      🖨️ Imprimir Boleta
+    </button>
+  </div>
+
+  <!-- Contenido oculto para impresión -->
+  <div id="boleta-content" style="display: none;">
+    <div class="boleta">
+      <div class="logo">
+        <img src="assets/icons/logo.png" alt="Logo Empresa">
+      </div>
+      <div class="center bold">
+        <p>FastFood SPA</p>
+        <p>RUT: 12.345.678-9</p>
+        <p>BOLETA ELECTRÓNICA N° {{ numeroBoleta }}</p>
+      </div>
+      <p><strong>Dirección:</strong> Av. Ejemplo 123, Ciudad</p>
+      <p><strong>Teléfono:</strong> +56 9 1234 5678</p>
+      <p><strong>Fecha Emisión:</strong> {{ fechaHora }}</p>
+      <p><strong>Cliente:</strong> Juan Pérez</p>
+      <div class="line"></div>
+
+      <table>
+        <thead>
+        <tr>
+          <th>CANT</th>
+          <th>DESCRIPCIÓN</th>
+          <th class="right">VALOR</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>2</td>
+          <td>Burger</td>
+          <td class="right">$5.000</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>Fries</td>
+          <td class="right">$1.500</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Soda</td>
+          <td class="right">$3.000</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div class="double-line"></div>
+      <div class="totales">
+        <p class="right">NETO: $9.000</p>
+        <p class="right">IVA 19%: $1.710</p>
+        <p class="total-final">TOTAL: $10.710</p>
+      </div>
+      <div class="line"></div>
+
+      <div class="qr">
+        <p>Timbre Electrónico S.I.I.</p>
+        <img src="assets/icons/timbre-demo.png" alt="QR Timbre">
+      </div>
+
+      <div class="footer">
+        <p>Verifique documento en www.sii.cl</p>
+        <p>Gracias por su preferencia</p>
+      </div>
+    </div>
+  </div>
 </div>
